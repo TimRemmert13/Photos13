@@ -1,8 +1,13 @@
 package application;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.List;
 
-public class User {
+public class User{
 	
 	private String username;
 	
@@ -34,6 +39,7 @@ public class User {
 	public void removeAlbum(Album album){
 		this.albums.remove(album);
 	}
+	
 	public String toString(){
 		return this.username;
 	}
