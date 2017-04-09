@@ -6,10 +6,10 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserController">
    <children>
       <Label alignment="CENTER" layoutX="255.0" layoutY="14.0" prefHeight="41.0" prefWidth="90.0" text="Welcome " />
-      <ListView layoutX="24.0" layoutY="47.0" prefHeight="310.0" prefWidth="249.0" />
+      <ListView fx:id="allAlbums" layoutX="24.0" layoutY="47.0" prefHeight="310.0" prefWidth="249.0" />
       <Label layoutX="101.0" layoutY="26.0" text="Albums:" />
       <TextField layoutX="399.0" layoutY="55.0" />
       <TextField layoutX="399.0" layoutY="95.0" />
@@ -18,10 +18,10 @@
       <Label layoutX="278.0" layoutY="100.0" text="Number of Photos:" />
       <Label layoutX="296.0" layoutY="140.0" text="Range of Dates:" />
       <Button layoutX="14.0" layoutY="360.0" mnemonicParsing="false" text="Delete" />
-      <Button layoutX="411.0" layoutY="313.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="144.0" text="Create new Album" />
+      <Button fx:id="createAlbum" layoutX="411.0" layoutY="313.0" mnemonicParsing="false" onAction="#createNewAlbum" prefHeight="27.0" prefWidth="144.0" text="Create new Album" />
       <Label layoutX="421.0" layoutY="244.0" prefHeight="17.0" prefWidth="127.0" text="Create New Album:" />
-      <TextField layoutX="400.0" layoutY="272.0" promptText="Name" />
-      <Button layoutX="83.0" layoutY="360.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="98.0" text="Open Album" />
+      <TextField fx:id="albumName" layoutX="400.0" layoutY="272.0" promptText="Name" />
+      <Button fx:id="openAlbum" layoutX="83.0" layoutY="360.0" mnemonicParsing="false" onAction="#openAlbum" prefHeight="27.0" prefWidth="98.0" text="Open Album" />
       <Button layoutX="188.0" layoutY="360.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="108.0" text="Search Photos" />
       <Button layoutX="8.0" layoutY="8.0" mnemonicParsing="false" text="Logout" />
       <Label layoutX="439.0" layoutY="27.0" text="Edit Album:" />

@@ -49,6 +49,7 @@ public class LoginController {
 		Button b = (Button)event.getSource();
 		if (b==logInButton) {
 			String userName = usernameBox.getText();
+			String passWord = passwordBox.getText();
 			if(userName.equals("admin")){
 				FXMLLoader load = new FXMLLoader();
 			    load.setLocation(getClass().getResource("/view/Admin.fxml"));
@@ -62,12 +63,21 @@ public class LoginController {
 			    photoStage.show();
 			 
 			}else{
-			    Parent user_parent = FXMLLoader.load(getClass().getResource("/view/UserHome.fxml"));
-			    Scene user_scene = new Scene(user_parent);
-			    Stage photoStage = (Stage)((Node) event.getSource()).getScene().getWindow();
-			    photoStage.hide();
-			    photoStage.setScene(user_scene);
-			    photoStage.show();				
+				for(User user: members){
+					if(userName.equals(user.getUsername()) && 
+							passWord.equals(user.getPassword())){
+						FXMLLoader loader = new FXMLLoader();
+					    loader.setLocation(getClass().getResource("/view/UserHome.fxml"));
+					    Parent user_parent = (Parent)loader.load();
+					    UserController usercontroller = loader.getController();
+					    usercontroller.setData(user);
+					    Scene admin_scene = new Scene(user_parent);
+					    Stage photoStage = (Stage)((Node) event.getSource()).getScene().getWindow();
+					    photoStage.hide();
+					    photoStage.setScene(admin_scene);
+					    photoStage.show();
+					}
+				}			
 			}
 			
 	    }

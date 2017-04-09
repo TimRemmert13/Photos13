@@ -12,6 +12,9 @@ public class Album {
 		this.name = name;
 		this.photos = photos;
 	}
+	public Album(String name){
+		this.name = name;
+	}
 	
 	public void addPhoto(Photo photo){
 		this.photos.add(photo);

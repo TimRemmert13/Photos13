@@ -21,6 +21,11 @@ public class Photo {
 	 this.calendar = calendar;
 	 calendar.set(Calendar.MILLISECOND, 0);
  }
+ public Photo(Image image, Calendar calendar){
+	 this.calendar = calendar;
+	 calendar.set(Calendar.MILLISECOND, 0);
+	 this.image = image;
+ }
  
  public Image getImage(){
 	 return this.image;

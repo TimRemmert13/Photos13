@@ -76,7 +76,8 @@ public class AdminController{
 		System.out.println("button pressed");
 		String name = this.username.getText();
 		String pass = this.password.getText();
-		User temp = new User(name, pass);
+		ArrayList<Album> albums = new ArrayList();
+		User temp = new User(name, pass, albums);
 		members.add(temp);
 		this.username.setText("");
 		this.password.setText("");
