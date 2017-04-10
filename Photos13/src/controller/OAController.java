@@ -1,26 +1,31 @@
 package controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import javafx.util.Callback;
 
 import java.io.File;
 import java.net.MalformedURLException;
 import java.util.Calendar;
+import java.util.List;
 
 import application.*;
 
 public class OAController {
 	
 	@FXML
-	ImageView picture;
+	ListView photosList;
 	
 	@FXML
 	Button back;
@@ -69,10 +74,13 @@ public class OAController {
 	
 	Album album;
 	
+    ObservableList<Photo> pictures = FXCollections.observableArrayList();
+	
 	public void setData(Album album){
 		this.album = album;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void addPhoto(ActionEvent e) throws MalformedURLException{
 		FileChooser fileChooser = new FileChooser();
 		//extenstion filers
@@ -81,15 +89,41 @@ public class OAController {
 		fileChooser.getExtensionFilters().addAll(exfilJPG, exfilPNG);
         
 		File file = fileChooser.showOpenDialog(null);
-		
+		ImageView picture = new ImageView();
 		Image image = new Image(file.toURL().toString(),353,341,true,true);
-	    this.picture.setImage(image);
-	    this.picture.setFitHeight(341);
-	    this.picture.setFitWidth(353);
-	    this.picture.setPreserveRatio(true);
+		picture.setImage(image);
+	    picture.setFitHeight(341);
+	    picture.setFitWidth(353);
+	    picture.setPreserveRatio(true);
 	    Calendar calendar = Calendar.getInstance();
 	    Photo photo = new Photo(image,calendar);
-	    this.album.addPhoto(photo);
+	    photo.setCaption("monkey");
+	    this.pictures.add(photo);
+	    //this.album.addPhoto(photo);
+	    photosList.setCellFactory(new Callback<ListView<Photo>, ListCell<Photo>>(){
+	    	 
+            @Override
+            public ListCell<Photo> call(ListView<Photo> p) {
+                 
+                ListCell<Photo> cell = new ListCell<Photo>(){
+ 
+                    @Override
+                    protected void updateItem(Photo t, boolean boo) {
+                        super.updateItem(t, boo);
+                        if (t != null) {
+                        	ImageView imageView = new ImageView();
+                        	imageView.setImage(t.getImage());
+                        	setText(t.getCaption());
+                            setGraphic(imageView);
+                        }
+                    }
+ 
+                };
+                 
+                return cell;
+            }
+        });
+	    photosList.setItems(pictures);
+		
 	}
-
 }

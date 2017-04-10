@@ -14,6 +14,8 @@ public class Photo {
 	private List<Tag> tags;
 	
 	private Calendar calendar;
+	
+	private String caption;
  
  public Photo(Image image, List<Tag> tags, Calendar calendar){
 	 this.image = image;
@@ -45,6 +47,13 @@ public class Photo {
  
  public void removeTag(Tag tag){
 	 this.tags.remove(tag);
+ }
+ 
+ public void setCaption(String caption){
+	 this.caption = caption;
+ }
+ public String getCaption(){
+	 return this.caption;
  }
  
 }
