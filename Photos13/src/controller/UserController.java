@@ -1,5 +1,11 @@
 package controller;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import application.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,19 +38,24 @@ public class UserController {
 	
 	ObservableList<Album> show = FXCollections.observableArrayList();
 	
-	public void setData(User user){
-		this.user = user;
+	List<User> members;
+	
+	public void setData(User user,List<User> users){
+	    this.user = user;
+		this.members = users;
 		show = FXCollections.observableArrayList(user.getAlbums());
 		allAlbums.setItems(show);
 	}
 	
-	public void createNewAlbum(ActionEvent e){
+	public void createNewAlbum(ActionEvent e) throws IOException{
 		System.out.println(this.user);
 		String name = albumName.getText();
-		Album al = new Album(name);
+		List<Photo> photos = new ArrayList<Photo>();
+		Album al = new Album(name, photos);
 		this.user.addAlbum(al);
 		show.add(al);
 		allAlbums.setItems(show);
+		this.save();
 	}
 	
 	public void openAlbum(ActionEvent e)
@@ -54,11 +65,20 @@ public class UserController {
 	    loader.setLocation(getClass().getResource("/view/OpenAlbum.fxml"));
 	    Parent admin_parent = (Parent)loader.load();
 	    OAController oacontroller = loader.getController();
-	    oacontroller.setData(target);
+	    oacontroller.setData(target, members, user);
 	    Scene admin_scene = new Scene(admin_parent);
 	    Stage photoStage = (Stage)((Node) e.getSource()).getScene().getWindow();
 	    photoStage.hide();
 	    photoStage.setScene(admin_scene);
 	    photoStage.show();
+	}
+	
+	public void save() throws IOException{
+		FXMLLoader loader = new FXMLLoader();
+	    loader.setLocation(getClass().getResource("/view/Admin.fxml"));
+	    Parent admin_parent = (Parent)loader.load();
+	    AdminController admincontroller = loader.getController();
+	    admincontroller.setData(this.members);
+	    admincontroller.save();
 	}
 }

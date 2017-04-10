@@ -2,8 +2,11 @@ package controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -15,17 +18,24 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.util.Callback;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import application.*;
 
 public class OAController {
 	
 	@FXML
-	ListView photosList;
+	ListView<Photo> photosList;
 	
 	@FXML
 	Button back;
@@ -34,7 +44,7 @@ public class OAController {
 	Label tags;
 	
 	@FXML
-	ListView tagList;
+	ListView<Tag> tagList;
 	
 	@FXML
 	Button deleteTag;
@@ -72,23 +82,81 @@ public class OAController {
 	@FXML
 	Button displayMode;
 	
+	@FXML
+	TextField value;
+	
+	@FXML 
+	Label tagLabel;
+	
 	Album album;
 	
     ObservableList<Photo> pictures = FXCollections.observableArrayList();
+    
+    ObservableList<Tag> tagsInPhoto = FXCollections.observableArrayList();
+    
+    List<User> members;
+    
+    User user;
 	
-	public void setData(Album album){
+	public void setData(Album album, List<User> members, User user){
 		this.album = album;
+		this.members = members;
+		this.user = user;
+		pictures =FXCollections.observableArrayList(album.getPhotos());
+		photosList.setCellFactory(new Callback<ListView<Photo>, ListCell<Photo>>(){	 
+            @Override
+            public ListCell<Photo> call(ListView<Photo> p) {
+                 
+                ListCell<Photo> cell = new ListCell<Photo>(){
+ 
+                    @Override
+                    protected void updateItem(Photo t, boolean boo) {
+                        super.updateItem(t, boo);
+                        if (t != null) {
+                        	ImageView imageView = new ImageView();
+                        	BufferedImage img = null;
+							try {
+								img = ImageIO.read(t.getURL());
+							} catch (MalformedURLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+                        	Image image = SwingFXUtils.toFXImage(img,null);
+                        	imageView.setImage(image);
+                        	imageView.setFitHeight(100);
+                        	imageView.setFitWidth(100);
+                        	imageView.setPreserveRatio(true);
+                        	setText(t.getCaption());
+                            setGraphic(imageView);
+                        }
+                    }
+ 
+                };  
+                return cell;
+            }
+        });
+	    photosList.setItems(pictures);
+	    photosList.getSelectionModel().selectFirst();
+	    Photo selected = (Photo) photosList.getSelectionModel().getSelectedItem();
+	    
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void addPhoto(ActionEvent e) throws MalformedURLException{
+	public void addPhoto(ActionEvent e) throws IOException{
 		FileChooser fileChooser = new FileChooser();
-		//extenstion filers
+		//Extension filers
 		FileChooser.ExtensionFilter exfilJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
 		FileChooser.ExtensionFilter exfilPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
 		fileChooser.getExtensionFilters().addAll(exfilJPG, exfilPNG);
         
 		File file = fileChooser.showOpenDialog(null);
+		if(file == null){
+			return;
+		}
+		
 		ImageView picture = new ImageView();
 		Image image = new Image(file.toURL().toString(),353,341,true,true);
 		picture.setImage(image);
@@ -96,10 +164,11 @@ public class OAController {
 	    picture.setFitWidth(353);
 	    picture.setPreserveRatio(true);
 	    Calendar calendar = Calendar.getInstance();
-	    Photo photo = new Photo(image,calendar);
-	    photo.setCaption("monkey");
+	    List<Tag> tags = new ArrayList<Tag>();		
+	    Photo photo = new Photo(file,tags,calendar);
 	    this.pictures.add(photo);
-	    //this.album.addPhoto(photo);
+	    this.album.addPhoto(photo);
+	    
 	    photosList.setCellFactory(new Callback<ListView<Photo>, ListCell<Photo>>(){
 	    	 
             @Override
@@ -112,18 +181,109 @@ public class OAController {
                         super.updateItem(t, boo);
                         if (t != null) {
                         	ImageView imageView = new ImageView();
-                        	imageView.setImage(t.getImage());
+                        	BufferedImage img = null;
+							try {
+								img = ImageIO.read(t.getURL());
+							} catch (MalformedURLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+                        	Image image = SwingFXUtils.toFXImage(img,null);
+                        	imageView.setImage(image);
+                        	imageView.setFitHeight(100);
+                        	imageView.setFitWidth(100);
+                        	imageView.setPreserveRatio(true);
                         	setText(t.getCaption());
                             setGraphic(imageView);
                         }
                     }
  
-                };
-                 
+                };  
                 return cell;
             }
         });
 	    photosList.setItems(pictures);
-		
+	    this.save();
 	}
+	    public void addCaption(ActionEvent e) throws IOException{
+	    	String caption = this.capField.getText();
+	    	if(!(caption.equals(null))){
+	    		Photo target = (Photo) photosList.getSelectionModel().getSelectedItem();
+	    		target.setCaption(caption);
+		        photosList.setItems(pictures);
+		        photosList.setCellFactory(new Callback<ListView<Photo>, ListCell<Photo>>(){
+			    	 
+		            @Override
+		            public ListCell<Photo> call(ListView<Photo> p) {
+		                 
+		                ListCell<Photo> cell = new ListCell<Photo>(){
+		 
+		                    @Override
+		                    protected void updateItem(Photo t, boolean boo) {
+		                        super.updateItem(t, boo);
+		                        if (t != null) {
+		                        	ImageView imageView = new ImageView();
+		                        	BufferedImage img = null;
+									try {
+										img = ImageIO.read(t.getURL());
+									} catch (MalformedURLException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									} catch (IOException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+		                        	Image image = SwingFXUtils.toFXImage(img,null);
+		                        	imageView.setImage(image);
+		                        	imageView.setFitHeight(100);
+		                        	imageView.setFitWidth(100);
+		                        	imageView.setPreserveRatio(true);
+		                        	setText(t.getCaption());
+		                            setGraphic(imageView);
+		                        }
+		                    }
+		 
+		                };  
+		                return cell;
+		            }
+		        });
+			    photosList.setItems(pictures);
+			    capField.setText("");
+			    this.save();
+	    	}
+	    }
+	    public void addTag(ActionEvent e){
+	    	String name = tag.getText();
+	    	String value = this.value.getText();
+	    	if(!(name.equals(null) && value.equals(null))){
+	    		for(Tag tag: this.user.getTags()){
+	    			if(tag.getName().equals(name) && tag.getValue().equals(value)){
+	    				return;
+	    			}
+	    		}
+	    		
+	    		List<Photo> photos = new ArrayList<Photo>();
+	    		Photo tagged = (Photo) photosList.getSelectionModel().getSelectedItem();
+	    		photos.add(tagged);
+	    		Tag newTag = new Tag(name,value, photos);
+	    		this.user.addTag(newTag);
+	    		tagged.addTag(newTag);
+	    		tagsInPhoto.add(newTag);
+	    		tagList.setItems(tagsInPhoto);
+	    		tag.setText("");
+	    		this.value.setText("");
+	    	}
+
+	    }
+		public void save() throws IOException{
+			FXMLLoader loader = new FXMLLoader();
+		    loader.setLocation(getClass().getResource("/view/Admin.fxml"));
+		    Parent admin_parent = (Parent)loader.load();
+		    AdminController admincontroller = loader.getController();
+		    admincontroller.setData(this.members);
+		    admincontroller.save();
+		}
 }

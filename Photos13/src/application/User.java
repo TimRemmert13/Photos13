@@ -15,15 +15,15 @@ public class User implements Serializable{
 	
 	private List<Album> albums;
 	
-	public User(String username, String password, List<Album> albums){
+	private List<Tag> tags;
+	
+	public User(String username, String password, List<Album> albums, List<Tag> tags){
 		this.username = username;
 		this.password = password;
 		this.albums = albums;
+		this.tags = tags;
 	}
-	public User(String username, String password){
-		this.username = username;
-		this.password = password;
-	}
+	
 	public List<Album> getAlbums(){
 		return this.albums;
 	}
@@ -38,6 +38,12 @@ public class User implements Serializable{
 	}
 	public void removeAlbum(Album album){
 		this.albums.remove(album);
+	}
+	public List<Tag> getTags(){
+		return this.tags;
+	}
+	public void addTag(Tag tag){
+		tags.add(tag);
 	}
 	
 	public String toString(){

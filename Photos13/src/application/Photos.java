@@ -18,6 +18,7 @@ public class Photos extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		List<User> data = null;
+		
 		try {
 		    ObjectInputStream ois = new ObjectInputStream(new FileInputStream("users.ser") );
 		    List<User> list = (List<User>) ois.readObject();

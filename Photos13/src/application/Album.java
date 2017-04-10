@@ -1,8 +1,9 @@
 package application;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Album {
+public class Album implements Serializable{
 	
 	String name;
 	
@@ -22,6 +23,12 @@ public class Album {
 	
 	public void removePhoto(Photo photo){
 		this.photos.remove(photo);
+	}
+	public String getName(){
+		return this.name;
+	}
+	public List<Photo> getPhotos(){
+		return this.photos;
 	}
 	
 	public String toString(){

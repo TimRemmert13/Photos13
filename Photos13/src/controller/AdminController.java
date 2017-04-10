@@ -57,17 +57,11 @@ public class AdminController{
 	ObservableList<User> members = FXCollections.observableArrayList();
 	
     
-    public void setData(ObservableList<User> list){
-    	users.setItems(list);
-		this.members = list;
+    public void setData(List<User> list){
+		this.members = FXCollections.observableArrayList(list);
+		users.setItems(members);
 	}
 
-	/*
-	public void initialize(URL location, ResourceBundle resources, ObservableList<User> members){
-		users.setItems(members);
-		this.members = members;
-	}
-	*/
 	public void createUser(ActionEvent e){
 		if(this.password == null ||  this.username == null){
 			return;
@@ -76,8 +70,9 @@ public class AdminController{
 		System.out.println("button pressed");
 		String name = this.username.getText();
 		String pass = this.password.getText();
-		ArrayList<Album> albums = new ArrayList();
-		User temp = new User(name, pass, albums);
+		ArrayList<Album> albums = new ArrayList<Album>();
+		ArrayList<Tag> tags = new ArrayList<Tag>();
+		User temp = new User(name, pass, albums,tags);
 		members.add(temp);
 		this.username.setText("");
 		this.password.setText("");

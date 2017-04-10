@@ -1,15 +1,19 @@
 package application;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Tag {
+public class Tag implements Serializable{
 	
-	private String tag;
+	private String name;
+	
+	private String value;
 	
 	List<Photo> photos;
 	
-	public Tag(String tag, List<Photo> photos){
-		this.tag = tag;
+	public Tag(String name,String value, List<Photo> photos){
+		this.name = name;
+		this.value = value;
 		this.photos = photos;
 	}
 	
@@ -20,9 +24,14 @@ public class Tag {
 	public void removePhoto(Photo photo){
 		photos.remove(photo);
 	}
-	
+	public String getName(){
+		return this.name;
+	}
+	public String getValue(){
+		return this.value;
+	}
 	public String toString(){
-		return this.tag;
+		return this.name + ": "+ this.value;
 	}
 
 }

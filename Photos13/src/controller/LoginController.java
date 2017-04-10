@@ -70,7 +70,7 @@ public class LoginController {
 					    loader.setLocation(getClass().getResource("/view/UserHome.fxml"));
 					    Parent user_parent = (Parent)loader.load();
 					    UserController usercontroller = loader.getController();
-					    usercontroller.setData(user);
+					    usercontroller.setData(user,members);
 					    Scene admin_scene = new Scene(user_parent);
 					    Stage photoStage = (Stage)((Node) event.getSource()).getScene().getWindow();
 					    photoStage.hide();
