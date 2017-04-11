@@ -6,7 +6,9 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -16,6 +18,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.awt.image.BufferedImage;
@@ -141,6 +144,8 @@ public class OAController {
 	    photosList.setItems(pictures);
 	    photosList.getSelectionModel().selectFirst();
 	    Photo selected = (Photo) photosList.getSelectionModel().getSelectedItem();
+	    tagsInPhoto = FXCollections.observableArrayList(selected.getTags());
+	    tagList.setItems(tagsInPhoto);
 	    
 	}
 	
@@ -255,13 +260,13 @@ public class OAController {
 			    this.save();
 	    	}
 	    }
-	    public void addTag(ActionEvent e){
+	    public void addTag(ActionEvent e) throws IOException{
 	    	String name = tag.getText();
 	    	String value = this.value.getText();
 	    	if(!(name.equals(null) && value.equals(null))){
 	    		for(Tag tag: this.user.getTags()){
 	    			if(tag.getName().equals(name) && tag.getValue().equals(value)){
-	    				return;
+	    				e.consume();;
 	    			}
 	    		}
 	    		
@@ -275,9 +280,94 @@ public class OAController {
 	    		tagList.setItems(tagsInPhoto);
 	    		tag.setText("");
 	    		this.value.setText("");
+	    		this.save();
 	    	}
 
 	    }
+	    
+	    public void deleteTag(ActionEvent e) throws IOException{
+	    	Photo target = (Photo) photosList.getSelectionModel().getSelectedItem();
+	    	Tag selected = (Tag) tagList.getSelectionModel().getSelectedItem();
+	    	if(target.getTags().contains(selected)){
+	    		target.removeTag(selected);
+	    	}
+	    	tagsInPhoto = FXCollections.observableArrayList(target.getTags());
+	    	tagList.setItems(tagsInPhoto);
+	    	this.save();
+	    }
+	    public void back(ActionEvent e) throws IOException{
+			FXMLLoader loader = new FXMLLoader();
+		    loader.setLocation(getClass().getResource("/view/UserHome.fxml"));
+		    Parent admin_parent = (Parent)loader.load();
+		    UserController usercontroller = loader.getController();
+		    usercontroller.setData(user, members);
+		    Scene admin_scene = new Scene(admin_parent);
+		    Stage photoStage = (Stage)((Node) e.getSource()).getScene().getWindow();
+		    photoStage.hide();
+		    photoStage.setScene(admin_scene);
+		    photoStage.show();
+	    }
+	    
+	    public void removePhoto(ActionEvent e) throws IOException{
+	    	Photo target = (Photo) photosList.getSelectionModel().getSelectedItem();
+	        if(this.album.getPhotos().contains(target)){
+	        	this.album.removePhoto(target);
+	        }
+	        pictures.remove(target);
+	        photosList.setCellFactory(new Callback<ListView<Photo>, ListCell<Photo>>(){
+		    	 
+	            @Override
+	            public ListCell<Photo> call(ListView<Photo> p) {
+	                 
+	                ListCell<Photo> cell = new ListCell<Photo>(){
+	 
+	                    @Override
+	                    protected void updateItem(Photo t, boolean boo) {
+	                        super.updateItem(t, boo);
+	                        if (t != null) {
+	                        	ImageView imageView = new ImageView();
+	                        	BufferedImage img = null;
+								try {
+									img = ImageIO.read(t.getURL());
+								} catch (MalformedURLException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+	                        	Image image = SwingFXUtils.toFXImage(img,null);
+	                        	imageView.setImage(image);
+	                        	imageView.setFitHeight(100);
+	                        	imageView.setFitWidth(100);
+	                        	imageView.setPreserveRatio(true);
+	                        	setText(t.getCaption());
+	                            setGraphic(imageView);
+	                        }
+	                    }
+	 
+	                };  
+	                return cell;
+	            }
+	        });
+	        photosList.setItems(pictures);
+	        this.save();
+	    }
+	    
+	    public void next(ActionEvent e){
+	    	Photo selected = (Photo) photosList.getSelectionModel().getSelectedItem();
+	    	if(pictures.get(pictures.size()-1) != selected){
+	    		photosList.getSelectionModel().selectNext();
+	    	}
+	    }
+	    
+	    public void prev(ActionEvent e){
+	    	Photo selected = (Photo) photosList.getSelectionModel().getSelectedItem();
+	    	if(pictures.get(0) != selected){
+	    		photosList.getSelectionModel().selectPrevious();
+	    	}
+	    }
+	    
 		public void save() throws IOException{
 			FXMLLoader loader = new FXMLLoader();
 		    loader.setLocation(getClass().getResource("/view/Admin.fxml"));
