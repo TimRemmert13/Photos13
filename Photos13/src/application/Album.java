@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Album implements Serializable{
+	private static final long serialVersionUID = -7472286945847741595L; ;
 	
 	String name;
 	
@@ -29,6 +30,11 @@ public class Album implements Serializable{
 	}
 	public List<Photo> getPhotos(){
 		return this.photos;
+	}
+	
+	public void setName(String name){
+		this.name = name;
+		
 	}
 	
 	public String toString(){

@@ -11,20 +11,20 @@
       <Label alignment="CENTER" layoutX="255.0" layoutY="14.0" prefHeight="41.0" prefWidth="90.0" text="Welcome " />
       <ListView fx:id="allAlbums" layoutX="24.0" layoutY="47.0" prefHeight="310.0" prefWidth="249.0" />
       <Label layoutX="101.0" layoutY="26.0" text="Albums:" />
-      <TextField layoutX="399.0" layoutY="55.0" />
-      <TextField layoutX="399.0" layoutY="95.0" />
-      <TextField layoutX="399.0" layoutY="135.0" />
+      <TextField fx:id="editName" layoutX="399.0" layoutY="55.0" />
+      <TextField fx:id="editNum" layoutX="399.0" layoutY="95.0" />
+      <TextField fx:id="editRange" layoutX="399.0" layoutY="135.0" />
       <Label layoutX="345.0" layoutY="60.0" text="Name:" />
       <Label layoutX="278.0" layoutY="100.0" text="Number of Photos:" />
       <Label layoutX="296.0" layoutY="140.0" text="Range of Dates:" />
-      <Button layoutX="14.0" layoutY="360.0" mnemonicParsing="false" text="Delete" />
+      <Button fx:id="deleteButton" layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#deleteAlbum" text="Delete" />
       <Button fx:id="createAlbum" layoutX="411.0" layoutY="313.0" mnemonicParsing="false" onAction="#createNewAlbum" prefHeight="27.0" prefWidth="144.0" text="Create new Album" />
       <Label layoutX="421.0" layoutY="244.0" prefHeight="17.0" prefWidth="127.0" text="Create New Album:" />
       <TextField fx:id="albumName" layoutX="400.0" layoutY="272.0" promptText="Name" />
       <Button fx:id="openAlbum" layoutX="83.0" layoutY="360.0" mnemonicParsing="false" onAction="#openAlbum" prefHeight="27.0" prefWidth="98.0" text="Open Album" />
-      <Button layoutX="188.0" layoutY="360.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="108.0" text="Search Photos" />
-      <Button layoutX="8.0" layoutY="8.0" mnemonicParsing="false" text="Logout" />
+      <Button fx:id="searchButton" layoutX="188.0" layoutY="360.0" mnemonicParsing="false" onAction="#switchToSearch" prefHeight="27.0" prefWidth="108.0" text="Search Photos" />
+      <Button fx:id="logoutButton" layoutX="8.0" layoutY="8.0" mnemonicParsing="false" onAction="#logOut" text="Logout" />
       <Label layoutX="439.0" layoutY="27.0" text="Edit Album:" />
-      <Button layoutX="443.0" layoutY="176.0" mnemonicParsing="false" text="Finish Edit" />
+      <Button fx:id="finishButton" layoutX="443.0" layoutY="176.0" mnemonicParsing="false" onAction="#renameAlbum" text="Finish Edit" />
    </children>
 </AnchorPane>
