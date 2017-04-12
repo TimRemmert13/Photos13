@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.FileOutputStream;
+
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -21,6 +22,17 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class UserController {
+	@FXML
+	Button deleteButton;
+	
+	@FXML
+	Button searchButton;
+	
+	@FXML
+	Button finishButton;
+	
+	@FXML
+	Button logoutButton;
 	
 	@FXML
 	Button openAlbum;
@@ -33,6 +45,15 @@ public class UserController {
 	
 	@FXML
 	TextField albumName;
+	
+	@FXML
+	TextField editName;
+	
+	@FXML
+	TextField editNum;
+	
+	@FXML
+	TextField editRange;
 
 	User user;
 	
@@ -60,16 +81,26 @@ public class UserController {
 	
 	public void openAlbum(ActionEvent e)
 	throws Exception{
+		System.out.println("getin?");
 		Album target = (Album)allAlbums.getSelectionModel().getSelectedItem();
 		FXMLLoader loader = new FXMLLoader();
+		System.out.println("this step?");
 	    loader.setLocation(getClass().getResource("/view/OpenAlbum.fxml"));
+	    System.out.println("this more step?");
 	    Parent admin_parent = (Parent)loader.load();
+	    System.out.println("this line1?");
 	    OAController oacontroller = loader.getController();
+	    System.out.println("this line2?");
 	    oacontroller.setData(target, members, user);
+	    System.out.println("this line3?");
 	    Scene admin_scene = new Scene(admin_parent);
+	    System.out.println("this line4?");
 	    Stage photoStage = (Stage)((Node) e.getSource()).getScene().getWindow();
+	    System.out.println("this line5?");
 	    photoStage.hide();
+	    System.out.println("this line6?");
 	    photoStage.setScene(admin_scene);
+	    System.out.println("this line7?");
 	    photoStage.show();
 	}
 	
@@ -81,4 +112,55 @@ public class UserController {
 	    admincontroller.setData(this.members);
 	    admincontroller.save();
 	}
+	public void logOut(ActionEvent e)
+			throws IOException{
+				FXMLLoader load = new FXMLLoader();
+			    load.setLocation(getClass().getResource("/view/Login.fxml"));
+			    Parent admin_parent = (Parent)load.load();
+			    LoginController logincontroller = load.getController();
+			    logincontroller.setData(members);
+			    Scene admin_scene = new Scene(admin_parent);
+			    Stage photoStage = (Stage)((Node) e.getSource()).getScene().getWindow();
+			    photoStage.hide();
+			    photoStage.setScene(admin_scene);
+			    photoStage.show();
+			}
+	
+	public void deleteAlbum(ActionEvent e) throws IOException{
+		System.out.println("delete album button pressed");
+		int target = allAlbums.getSelectionModel().getSelectedIndex();
+		Album temp = (Album) allAlbums.getSelectionModel().getSelectedItem();
+		if(show.contains(temp)){
+			show.remove(target);
+			//allAlbums.setItems(show);
+			//this.save();
+		}
+		allAlbums.setItems(show);
+		this.save(); 
+	}
+	public void switchToSearch(ActionEvent e)
+			throws IOException{
+				FXMLLoader load = new FXMLLoader();
+			    load.setLocation(getClass().getResource("/view/Search.fxml"));
+			    Parent admin_parent = (Parent)load.load();
+			    //SearchController SearchController = load.getController();
+			    //SearchController.setData(members);
+			    Scene admin_scene = new Scene(admin_parent);
+			    Stage photoStage = (Stage)((Node) e.getSource()).getScene().getWindow();
+			    photoStage.hide();
+			    photoStage.setScene(admin_scene);
+			    photoStage.show();
+			}
+
+    public void renameAlbum(ActionEvent e) throws IOException{
+    	Album album = (Album)allAlbums.getSelectionModel().getSelectedItem();
+    	int index = show.indexOf(album);
+    	album.setName(editName.getText());
+    	show.set(index, album);
+    	allAlbums.setItems(show);
+    	this.save();
+    	
+    	
+    }
+
 }

@@ -2,7 +2,6 @@ package application;
 
 import java.util.List;
 
-import javafx.scene.image.Image;
 
 import java.io.File;
 import java.io.Serializable;
