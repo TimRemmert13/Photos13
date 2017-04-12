@@ -20,7 +20,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
+/**
+ * 
+ * @author Tim Remmert
+ *
+ */
 public class UserController {
 	@FXML
 	Button deleteButton;
@@ -103,6 +107,7 @@ public class UserController {
 	    System.out.println("this line7?");
 	    photoStage.show();
 	}
+	
 	
 	public void save() throws IOException{
 		FXMLLoader loader = new FXMLLoader();
