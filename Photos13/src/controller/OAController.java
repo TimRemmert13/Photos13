@@ -308,6 +308,20 @@ public class OAController {
 		    photoStage.show();
 	    }
 	    
+	    public void displayMode(ActionEvent e) throws IOException{
+	    	FXMLLoader loader = new FXMLLoader();
+		    loader.setLocation(getClass().getResource("/view/Display.fxml"));
+		    Parent admin_parent = (Parent)loader.load();
+		    DisplayController displaycontroller = loader.getController();
+		    Photo selected = (Photo) photosList.getSelectionModel().getSelectedItem();
+		    displaycontroller.setData(members, selected, album, user);
+		    displaycontroller.initalizeImage(selected);
+		    Scene admin_scene = new Scene(admin_parent, 1500, 900);
+		    Stage photoStage = (Stage)((Node) e.getSource()).getScene().getWindow();
+		    photoStage.hide();
+		    photoStage.setScene(admin_scene);
+		    photoStage.show();
+	    }
 	    public void removePhoto(ActionEvent e) throws IOException{
 	    	Photo target = (Photo) photosList.getSelectionModel().getSelectedItem();
 	        if(this.album.getPhotos().contains(target)){
