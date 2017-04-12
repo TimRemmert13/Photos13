@@ -81,26 +81,26 @@ public class UserController {
 	
 	public void openAlbum(ActionEvent e)
 	throws Exception{
-		System.out.println("getin?");
+		//System.out.println("getin?");
 		Album target = (Album)allAlbums.getSelectionModel().getSelectedItem();
 		FXMLLoader loader = new FXMLLoader();
-		System.out.println("this step?");
+		//System.out.println("this step?");
 	    loader.setLocation(getClass().getResource("/view/OpenAlbum.fxml"));
-	    System.out.println("this more step?");
+	    //System.out.println("this more step?");
 	    Parent admin_parent = (Parent)loader.load();
-	    System.out.println("this line1?");
+	    //System.out.println("this line1?");
 	    OAController oacontroller = loader.getController();
-	    System.out.println("this line2?");
+	    //System.out.println("this line2?");
 	    oacontroller.setData(target, members, user);
-	    System.out.println("this line3?");
+	    //System.out.println("this line3?");
 	    Scene admin_scene = new Scene(admin_parent);
-	    System.out.println("this line4?");
+	    //System.out.println("this line4?");
 	    Stage photoStage = (Stage)((Node) e.getSource()).getScene().getWindow();
-	    System.out.println("this line5?");
+	    //System.out.println("this line5?");
 	    photoStage.hide();
-	    System.out.println("this line6?");
+	    //System.out.println("this line6?");
 	    photoStage.setScene(admin_scene);
-	    System.out.println("this line7?");
+	    //System.out.println("this line7?");
 	    photoStage.show();
 	}
 	

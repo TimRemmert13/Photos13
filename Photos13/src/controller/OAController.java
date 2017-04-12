@@ -383,6 +383,20 @@ public class OAController {
 	    	}
 	    }
 	    
+	    public void switchToMC(ActionEvent e) throws IOException{
+	    	FXMLLoader load = new FXMLLoader();
+		    load.setLocation(getClass().getResource("/view/Move.fxml"));
+		    Parent admin_parent = (Parent)load.load();
+		    MoveController movecontroller = load.getController();
+		    Photo selected = (Photo) photosList.getSelectionModel().getSelectedItem();
+		    movecontroller.setData(user,album,selected,members);
+		    Scene admin_scene = new Scene(admin_parent);
+		    Stage photoStage = (Stage)((Node) e.getSource()).getScene().getWindow();
+		    photoStage.hide();
+		    photoStage.setScene(admin_scene);
+		    photoStage.show();
+	    }
+	    
 		public void save() throws IOException{
 			FXMLLoader loader = new FXMLLoader();
 		    loader.setLocation(getClass().getResource("/view/Admin.fxml"));
