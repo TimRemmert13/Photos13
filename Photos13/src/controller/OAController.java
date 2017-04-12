@@ -23,8 +23,11 @@ import javafx.util.Callback;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectOutputStream;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -117,17 +120,15 @@ public class OAController {
                         super.updateItem(t, boo);
                         if (t != null) {
                         	ImageView imageView = new ImageView();
-                        	BufferedImage img = null;
+                        	String path = t.getFile().getAbsolutePath();
+                    		InputStream instream = null;
 							try {
-								img = ImageIO.read(t.getURL());
-							} catch (MalformedURLException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (IOException e) {
+								instream = new FileInputStream(path);
+							} catch (FileNotFoundException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-                        	Image image = SwingFXUtils.toFXImage(img,null);
+                    		Image image = new Image(instream);
                         	imageView.setImage(image);
                         	imageView.setFitHeight(100);
                         	imageView.setFitWidth(100);
@@ -186,17 +187,15 @@ public class OAController {
                         super.updateItem(t, boo);
                         if (t != null) {
                         	ImageView imageView = new ImageView();
-                        	BufferedImage img = null;
+                        	String path = t.getFile().getAbsolutePath();
+                    		InputStream instream = null;
 							try {
-								img = ImageIO.read(t.getURL());
-							} catch (MalformedURLException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (IOException e) {
+								instream = new FileInputStream(path);
+							} catch (FileNotFoundException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-                        	Image image = SwingFXUtils.toFXImage(img,null);
+                    		Image image = new Image(instream);
                         	imageView.setImage(image);
                         	imageView.setFitHeight(100);
                         	imageView.setFitWidth(100);
@@ -231,17 +230,15 @@ public class OAController {
 		                        super.updateItem(t, boo);
 		                        if (t != null) {
 		                        	ImageView imageView = new ImageView();
-		                        	BufferedImage img = null;
+		                        	String path = t.getFile().getAbsolutePath();
+		                    		InputStream instream = null;
 									try {
-										img = ImageIO.read(t.getURL());
-									} catch (MalformedURLException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									} catch (IOException e) {
+										instream = new FileInputStream(path);
+									} catch (FileNotFoundException e) {
 										// TODO Auto-generated catch block
 										e.printStackTrace();
 									}
-		                        	Image image = SwingFXUtils.toFXImage(img,null);
+		                    		Image image = new Image(instream);
 		                        	imageView.setImage(image);
 		                        	imageView.setFitHeight(100);
 		                        	imageView.setFitWidth(100);
@@ -340,17 +337,15 @@ public class OAController {
 	                        super.updateItem(t, boo);
 	                        if (t != null) {
 	                        	ImageView imageView = new ImageView();
-	                        	BufferedImage img = null;
+	                        	String path = t.getFile().getAbsolutePath();
+	                    		InputStream instream = null;
 								try {
-									img = ImageIO.read(t.getURL());
-								} catch (MalformedURLException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								} catch (IOException e) {
+									instream = new FileInputStream(path);
+								} catch (FileNotFoundException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
-	                        	Image image = SwingFXUtils.toFXImage(img,null);
+	                    		Image image = new Image(instream);
 	                        	imageView.setImage(image);
 	                        	imageView.setFitHeight(100);
 	                        	imageView.setFitWidth(100);

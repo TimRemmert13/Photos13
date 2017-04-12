@@ -54,7 +54,7 @@ public class DisplayController {
 	@FXML
 	ListView tagList;
 	
-	ObservableList<Tag> taglist;
+	ObservableList<Tag> taglist = FXCollections.observableArrayList();
 	
 	ObservableList<User> members = FXCollections.observableArrayList();
 	
@@ -68,7 +68,9 @@ public class DisplayController {
 		InputStream instream = new FileInputStream(path);
 		Image image = new Image(instream);
 		picture.setImage(image);
-		
+		dateField.setText(photo.getDate().toString());
+		taglist = FXCollections.observableArrayList(photo.getTags());
+		tagList.setItems(taglist);
 	}
 
 }
