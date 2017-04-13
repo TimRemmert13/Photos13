@@ -95,7 +95,7 @@ public class UserController {
 	    //System.out.println("this line1?");
 	    OAController oacontroller = loader.getController();
 	    //System.out.println("this line2?");
-	    oacontroller.setData(target, members, user);
+	    //oacontroller.setData(target, members, user);
 	    //System.out.println("this line3?");
 	    Scene admin_scene = new Scene(admin_parent);
 	    //System.out.println("this line4?");

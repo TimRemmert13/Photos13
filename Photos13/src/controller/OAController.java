@@ -167,6 +167,9 @@ public class OAController {
 		this.album = album;
 		this.members = members;
 		this.user = user;
+		if(album.getPhotos() == null){
+			return;
+		}
 		pictures =FXCollections.observableArrayList(album.getPhotos());
 		photosList.setCellFactory(new Callback<ListView<Photo>, ListCell<Photo>>(){	 
             @Override
