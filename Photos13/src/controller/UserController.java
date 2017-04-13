@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import application.*;
@@ -70,6 +71,33 @@ public class UserController {
 		this.members = users;
 		show = FXCollections.observableArrayList(user.getAlbums());
 		allAlbums.setItems(show);
+		/*Album album1 = (Album)allAlbums.getSelectionModel().getSelectedItem();
+		Photo photo1= album1.getPhotos().get(0);
+		Date date1 = photo1.getDate();
+		Date earliest = date1;
+		
+		for(int i=0; i<album1.getPhotos().size();i++){
+			if(album1.getPhotos().get(i).getDate().before(date1)){
+				earliest =album1.getPhotos().get(i).getDate();
+			}
+		}
+		Photo photo2= album1.getPhotos().get(1);
+		Date date2 = photo2.getDate();
+		Date latest = date2;
+		
+		for(int i=0; i<album1.getPhotos().size();i++){
+			if(album1.getPhotos().get(i).getDate().after(date1)){
+				latest =album1.getPhotos().get(i).getDate();
+			}
+		}
+		//Photo photo1= album1.getPhotos().get(0);
+		//Photo photo2 = album1.getPhotos().get(1);
+		//String date1 = photo1.getDate().toString().substring(0, 11);
+		//String date2 = photo2.getDate().toString().substring(0, 11);
+		editRange.setText(earliest+ " - " + latest);
+		String size = Integer.toString(album1.getPhotos().size());
+		editNum.setText(size);*/
+		
 	}
 	
 	public void createNewAlbum(ActionEvent e) throws IOException{
@@ -95,7 +123,7 @@ public class UserController {
 	    //System.out.println("this line1?");
 	    OAController oacontroller = loader.getController();
 	    //System.out.println("this line2?");
-	    //oacontroller.setData(target, members, user);
+	    oacontroller.setData(target, members, user);
 	    //System.out.println("this line3?");
 	    Scene admin_scene = new Scene(admin_parent);
 	    //System.out.println("this line4?");
@@ -148,8 +176,8 @@ public class UserController {
 				FXMLLoader load = new FXMLLoader();
 			    load.setLocation(getClass().getResource("/view/Search.fxml"));
 			    Parent admin_parent = (Parent)load.load();
-			    //SearchController SearchController = load.getController();
-			    //SearchController.setData(members);
+			    SearchController SearchController = load.getController();
+			    SearchController.setData(show,user,members);
 			    Scene admin_scene = new Scene(admin_parent);
 			    Stage photoStage = (Stage)((Node) e.getSource()).getScene().getWindow();
 			    photoStage.hide();

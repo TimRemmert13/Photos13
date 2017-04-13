@@ -66,8 +66,8 @@ public class SearchController {
 	List<Album> totalAlbums;
 	User user;
 	List<User> users;
-	ListView<Photo> photoDis;
-	ListView<Tag> tagList;
+	List<Photo> photoDis;
+	List<Tag> tagList;
 	
 	ObservableList<Photo> photolisdis = FXCollections.observableArrayList();
 	
@@ -140,10 +140,11 @@ public class SearchController {
 		
 		
 	}
-	
+	/*List<Photo> photos = (List)photolisdis;
 	public void creatAlbum(ActionEvent e){
-		//totalAlbums.add(photolisdis);
-	}
+		Album myAlbum = (albumName.getText(), (List)photolisdis);
+		this.user.addAlbum(myAlbum);
+	}*/
 	
 	
 	
