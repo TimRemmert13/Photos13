@@ -204,14 +204,16 @@ public class OAController {
 	    photosList.setItems(pictures);
 	    photosList.getSelectionModel().selectFirst();
 	    Photo selected = (Photo) photosList.getSelectionModel().getSelectedItem();
+	    if(selected != null){
 	    tagsInPhoto = FXCollections.observableArrayList(selected.getTags());
 	    tagList.setItems(tagsInPhoto);
+	    }
 	    
 	}
 	/**
 	 * Method to add a photo from the users computer to the open album
 	 * @param e Action event triggered when add photo button is pressed
-	 * @throws IOException
+	 * @throws IOException if file not found
 	 */
 	@SuppressWarnings("unchecked")
 	public void addPhoto(ActionEvent e) throws IOException{
@@ -278,7 +280,7 @@ public class OAController {
 	    /**
 	     * Method to add a caption to a selected photo
 	     * @param e Action Event triggered when edit caption button is pressed
-	     * @throws IOException
+	     * @throws IOException if file not found
 	     */
 	    public void addCaption(ActionEvent e) throws IOException{
 	    	String caption = this.capField.getText();
@@ -328,7 +330,7 @@ public class OAController {
 	    /**
 	     * Method to add a tag to a photo
 	     * @param e Action event triggered when add tag button is pressed
-	     * @throws IOException
+	     * @throws IOException if file not found
 	     */
 	    public void addTag(ActionEvent e) throws IOException{
 	    	String name = tag.getText();
@@ -357,7 +359,7 @@ public class OAController {
 	    /**
 	     * Method to delete a tag from a photo
 	     * @param e Action event triggered when delete tag button is pressed
-	     * @throws IOException
+	     * @throws IOException if file not found
 	     */
 	    public void deleteTag(ActionEvent e) throws IOException{
 	    	Photo target = (Photo) photosList.getSelectionModel().getSelectedItem();
@@ -373,7 +375,7 @@ public class OAController {
 	    /**
 	     * Method to go from the open album window to the user home window
 	     * @param e Action event triggered when back button is pressed
-	     * @throws IOException
+	     * @throws IOException if file not found
 	     */
 	    public void back(ActionEvent e) throws IOException{
 			FXMLLoader loader = new FXMLLoader();
@@ -390,7 +392,7 @@ public class OAController {
 	    /**
 	     * Method to enter the display mode window
 	     * @param e Action event triggered when display mode button is pressed
-	     * @throws IOException
+	     * @throws IOException if file not found
 	     */
 	    public void displayMode(ActionEvent e) throws IOException{
 	    	FXMLLoader loader = new FXMLLoader();
@@ -407,9 +409,18 @@ public class OAController {
 		    photoStage.show();
 	    }
 	    /**
+	     * Method to update the tag list view to the currently selected photo
+	     * @param m Mouse event triggered when selecting a photo
+	     */
+	    public void updateTag(MouseEvent m){
+	    	Photo photo = (Photo) photosList.getSelectionModel().getSelectedItem();
+	    	tagsInPhoto = FXCollections.observableArrayList(photo.getTags());
+	    	tagList.setItems(tagsInPhoto);
+	    }
+	    /**
 	     * Method to remove a photo from the open album
 	     * @param e Action event triggered when delete button is pressed
-	     * @throws IOException
+	     * @throws IOException if file not found
 	     */
 	    public void removePhoto(ActionEvent e) throws IOException{
 	    	Photo target = (Photo) photosList.getSelectionModel().getSelectedItem();
